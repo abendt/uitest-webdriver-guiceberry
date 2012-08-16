@@ -65,7 +65,7 @@ public class UiTestConfiguration extends AbstractModule {
         });
     }
 
-    // taken from
+    // taken from http://pastie.org/1064618
 
     /**
      * A factory of {@link Matcher}s that can be used in

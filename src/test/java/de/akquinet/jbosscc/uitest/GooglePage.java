@@ -13,6 +13,10 @@ import java.util.List;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
+ * see http://code.google.com/p/selenium/wiki/PageObjects and
+ * http://code.google.com/p/selenium/wiki/LoadableComponent for details
+ * about the PageObject Pattern.
+ *
  * @author Alphonse Bendt, akquinet tech@spree GmbH
  */
 public class GooglePage extends LoadableComponent<GooglePage> {

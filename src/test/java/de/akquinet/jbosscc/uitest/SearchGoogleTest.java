@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import javax.inject.Inject;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Alphonse Bendt
@@ -26,15 +25,17 @@ public class SearchGoogleTest {
 
     @Test
     public void canDirectlyUseWebDriver() {
-        assertNotNull(driver);
+        driver.get("http://www.google.com");
+
+        assertThat(driver.getTitle()).contains("Google");
     }
 
     @Test
-    public void elementsAreInjectedIntoPage() {
+    public void canUsePageObjectToSearchGoogle() {
         googlePage.get();
         googlePage.search("akquinet.de");
 
+        System.out.println("Results: " + googlePage.getSearchResults());
         assertThat(googlePage.getSearchResults()).contains("akquinet AG: akquinet AG Deutschland");
-        System.out.println("Search Results: " + googlePage.getSearchResults());
     }
 }
