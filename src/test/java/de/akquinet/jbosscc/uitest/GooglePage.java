@@ -1,11 +1,15 @@
 package de.akquinet.jbosscc.uitest;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.LoadableComponent;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -27,7 +31,7 @@ public class GooglePage extends LoadableComponent<GooglePage> {
     @FindBy(name = "q")
     private WebElement searchField;
 
-    @FindBy(css = ".r a")
+    @FindBy(css = "div.rc")
     private List<WebElement> searchResults;
 
     @Override
@@ -45,7 +49,25 @@ public class GooglePage extends LoadableComponent<GooglePage> {
         searchField.submit();
     }
 
-    public List<String> getSearchResults() {
+    public void waitUntilSearchResultsContains(final String text) {
+        new WebDriverWait(driver, 30).ignoring(StaleElementReferenceException.class).until(new Predicate<WebDriver>() {
+            @Override
+            public boolean apply(WebDriver input) {
+                return Iterables.any(searchResults(), containsSubstring(text));
+            }
+        });
+    }
+
+    private Predicate<String> containsSubstring(final String text) {
+        return new Predicate<String>() {
+            @Override
+            public boolean apply(String input) {
+                return input.contains(text);
+            }
+        };
+    }
+
+    private List<String> searchResults() {
         Function<WebElement, String> transformToText = new Function<WebElement, String>() {
             @Override
             public String apply(WebElement from) {

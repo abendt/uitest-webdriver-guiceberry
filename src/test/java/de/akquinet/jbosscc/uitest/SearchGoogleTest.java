@@ -35,7 +35,6 @@ public class SearchGoogleTest {
         googlePage.get();
         googlePage.search("akquinet.de");
 
-        System.out.println("Results: " + googlePage.getSearchResults());
-        assertThat(googlePage.getSearchResults()).contains("akquinet AG: akquinet AG Deutschland");
+        googlePage.waitUntilSearchResultsContains("akquinet AG Deutschland: akquinet AG");
     }
 }
